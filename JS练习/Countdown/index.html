@@ -12,7 +12,52 @@
 </head>
 <body>
     <div class="time_machine">
-        <h3>普通倒计时</h3>
+        <h3>普通倒计时 --- 目标日期   2019-04-03 17:30:00</h3>
+        <div class="time_1">
+            XX广场盛大开业  <span id="time_1_detail"></span>
+        </div>
     </div>
+
+    <script>
+        function timeLaster(endDateStr) {
+            var endDate = new Date(endDateStr);
+            //当前时间
+            var nowDate = new Date();
+            //相差的总秒数
+            var totalSeconds = parseInt((endDate - nowDate) / 1000);
+            //天数
+            var days = fullTime(Math.floor(totalSeconds / (60 * 60 * 24)));
+            //取模（余数）
+            var modulo = totalSeconds % (60 * 60 * 24);
+            //小时数
+            var hours = fullTime(Math.floor(modulo / (60 * 60)));
+            modulo = modulo % (60 * 60);
+            //分钟
+            var minutes = fullTime(Math.floor(modulo / 60));
+            //秒
+            var seconds = fullTime(modulo % 60);
+            if(totalSeconds>0){
+                document.getElementById('time_1_detail').innerHTML = "还剩:" + days + "天" + hours + "时" + minutes + "钟" + seconds + "秒";
+            }else{
+                document.getElementById('time_1_detail').innerHTML = "已经过去:" + days + "天" + hours + "时" + minutes + "钟" + seconds + "秒";
+            }
+            /*输出到页面,并且每秒刷新
+            * 显示分为  距离目标时间剩余  ,  距离目标时间已经超过
+            * 1.新增,日期补全
+            * */
+            setTimeout(function () {
+                timeLaster(endDateStr)
+            },1000)
+        }
+        function fullTime(num){
+            var num_new  = Math.abs(num);
+            if(num_new<10){
+                return '0'+num_new
+            }else{
+                return num_new
+            }
+        }
+        timeLaster("2019-04-03 17:30:00")
+    </script>
 </body>
 </html>
